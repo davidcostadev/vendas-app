@@ -1,69 +1,65 @@
 <template>
-  <div class="container">
+  <div id="app">
 
-  <md-toolbar>
-    <h1 class="md-title" style="flex: 1">Minhas Vendas</h1>
-    <md-button class="md-icon-button" @click="toggleLeftSidenav">
-      <md-icon>menu</md-icon>
-    </md-button>
-  </md-toolbar>
+    <b-navbar toggleable="md" type="dark" variant="info">
+      <b-navbar-brand href="#">Minhas Vendas</b-navbar-brand>
+      <b-nav-toggle target="nav_collapse"></b-nav-toggle>
 
-    <md-theme md-name="purple">
-      <transition name="md-router" appear>
-        <router-view></router-view>
-      </transition>
-    </md-theme>
+      <b-collapse is-nav id="nav_collapse">
+        <b-nav is-nav-bar class="ml-auto">
+          <b-nav is-nav-bar>
+            <b-nav-item href="#">Pedidos</b-nav-item>
+            <b-nav-item href="#">Produtos</b-nav-item>
+            <b-nav-item href="#">Clientes</b-nav-item>
+          </b-nav>
+        </b-nav>
+      </b-collapse>
+    </b-navbar>
 
-
-  <md-sidenav class="md-left" ref="leftSidenav">
-    <md-toolbar class="md-large">
-      <div class="md-toolbar-container">
-        <h3 class="md-title">Minhas Vendas</h3>
-      </div>
-    </md-toolbar>
-
-    <md-list>
-      <md-list-item>menu</md-list-item>
-      <md-list-item>
-        <router-link to="/components/list">Meus Pedidos</router-link>
-      </md-list-item>
-      <md-list-item>
-        <router-link to="/components/list">Clientes</router-link>
-      </md-list-item>
-      <md-list-item>
-        <router-link to="/components/list">Produtos</router-link>
-      </md-list-item>
-    </md-list>
-
-  </md-sidenav>
-
+    <main class="page-content">
+      <md-theme md-name="blue">
+        <transition name="md-router" appear>
+          <router-view></router-view>
+        </transition>
+      </md-theme>
+    </main>
 
   </div>
+
 </template>
+
 
 <script>
   export default {
     name: 'app',
     methods: {
-      toggleLeftSidenav() {
-        this.$refs.leftSidenav.toggle()
-      },
     },
   }
 </script>
 
 <style>
-
-.md-theme-purple.md-list {
-  background-color: #fff;
-  color: rgba(0, 0, 0, .87);
+body, html {
+    height: 100%;
+    overflow: hidden;
 }
-.page {
-  padding: 15px 20px;
+body {
+  min-height: 100%
+}
+#app {
+  min-height: 100%
+}
+
+.page-content {
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 .box-content {
   padding-top: 20px;
   padding-bottom: 40px;
 }
 
+
+.md-speed-dial {
+  position: fixed !important;
+}
 </style>
