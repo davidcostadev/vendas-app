@@ -1,27 +1,38 @@
 <template>
   <div id="app">
 
-    <b-navbar toggleable="md" type="dark" variant="info">
-      <b-navbar-brand href="#">Minhas Vendas</b-navbar-brand>
-      <b-nav-toggle target="nav_collapse"></b-nav-toggle>
 
-      <b-collapse is-nav id="nav_collapse">
-        <b-nav is-nav-bar class="ml-auto">
-          <b-nav is-nav-bar>
-            <b-nav-item href="#">Pedidos</b-nav-item>
-            <b-nav-item href="#">Produtos</b-nav-item>
-            <b-nav-item href="#">Clientes</b-nav-item>
-          </b-nav>
-        </b-nav>
-      </b-collapse>
-    </b-navbar>
+    <md-toolbar>
+      <md-button class="md-icon-button" @click="toggleLeftSidenav">
+        <md-icon>menu</md-icon>
+      </md-button>
+      <h1 class="md-title">Vendas</h1>
+    </md-toolbar>
 
-    <main class="page-content">
-      <md-theme md-name="blue">
-        <transition name="md-router" appear>
-          <router-view></router-view>
-        </transition>
-      </md-theme>
+    <md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
+      <md-toolbar class="md-large">
+        <div class="md-toolbar-container">
+          <h3 class="md-title">Menu</h3>
+        </div>
+      </md-toolbar>
+
+      <md-list>
+        <md-list-item>
+          <router-link to="/">Pedidos</router-link>
+        </md-list-item>
+        <md-list-item>
+          <router-link to="/products">Produtos</router-link>
+        </md-list-item>
+        <md-list-item>
+          <router-link to="/clients">Clientes</router-link>
+        </md-list-item>
+      </md-list>
+    </md-sidenav>
+
+    <main class="main-content">
+      <transition name="md-router" appear>
+        <router-view></router-view>
+      </transition>
     </main>
 
   </div>
@@ -33,25 +44,38 @@
   export default {
     name: 'app',
     methods: {
+      toggleLeftSidenav() {
+        this.$refs.leftSidenav.toggle()
+      },
+      toggleRightSidenav() {
+        this.$refs.rightSidenav.toggle()
+      },
+      closeRightSidenav() {
+        this.$refs.rightSidenav.close()
+      },
+      open(ref) {
+        window.console.log(`Opened: ${ref}`)
+      },
+      close(ref) {
+        window.console.log(`Closed: ${ref}`)
+      },
     },
   }
 </script>
 
 <style>
-body, html {
-    height: 100%;
-    overflow: hidden;
-}
+
 body {
   min-height: 100%
 }
 #app {
   min-height: 100%
 }
-
+.main-content {
+  padding-bottom: 90px;
+}
 .page-content {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding: 15px;
 }
 .box-content {
   padding-top: 20px;

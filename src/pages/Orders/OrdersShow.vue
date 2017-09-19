@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div class="page-content">
 
     <span class="md-title">Pedido #{{$route.params.order_id}}</span>
 
@@ -41,27 +41,31 @@
 
 
 
-  <span class="md-body-2">Data do Evento</span>
-  <div class="field-group">
-    <md-input-container>
-      <label for="movie">Dia</label>
-      <md-select v-model="input_dia">
-        <md-option v-for="dia in dias" :key="dia" :value="dia">{{dia}}</md-option>
-      </md-select>
-    </md-input-container>
-    <md-input-container>
-      <label for="movie">Mes</label>
-      <md-select v-model="input_mes">
-        <md-option v-for="mes in meses" :key="mes" :value="mes">{{mes}}</md-option>
-      </md-select>
-    </md-input-container>
-    <md-input-container>
-      <label for="movie">Ano</label>
-      <md-select v-model="input_ano">
-        <md-option v-for="ano in anos" :key="ano" :value="ano">{{ano}}</md-option>
-      </md-select>
-    </md-input-container>
-  </div>
+    <div class="box-content">
+
+      <span class="md-body-2">Data do Evento</span>
+
+      <div class="field-group">
+        <md-input-container>
+          <label for="movie">Dia</label>
+          <md-select v-model="input_dia">
+            <md-option v-for="dia in dias" :key="dia" :value="dia">{{dia}}</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container>
+          <label for="movie">Mes</label>
+          <md-select v-model="input_mes">
+            <md-option v-for="mes in meses" :key="mes" :value="mes">{{mes}}</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container>
+          <label for="movie">Ano</label>
+          <md-select v-model="input_ano">
+            <md-option v-for="ano in anos" :key="ano" :value="ano">{{ano}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+    </div>
 
     <span class="md-body-2">Setar Status</span>
     <div class="box-content">

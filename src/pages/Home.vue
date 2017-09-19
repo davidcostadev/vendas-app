@@ -7,21 +7,24 @@
         <router-link :to="`/orders/${order.id}`">
           <md-icon>{{getStatus(order.order_histories)}}</md-icon>
           <span> {{order.user.name}} - {{order.product.name}}</span>
-          <span>{{getLastData(order.order_histories)}}</span>
+          <span>{{getFirstData(order.order_histories)}}</span>
         </router-link>
       </md-list-item>
     </md-list>
 
 
-    <md-speed-dial md-open="hover" md-direction="top" class="md-fab-bottom-right" md-theme="blue">
+    <md-speed-dial md-open="hover" md-direction="top" class="md-fab-bottom-right">
       <md-button class="md-fab" md-fab-trigger>
         <md-icon md-icon-morph>event</md-icon>
         <md-icon>add</md-icon>
       </md-button>
 
-      <md-button class="md-fab md-primary md-mini md-clean">
-        <md-icon>note_add</md-icon>
-      </md-button>
+      <router-link to="orders/new">
+
+        <md-button class="md-fab md-primary md-mini md-clean">
+          <md-icon>note_add</md-icon>
+        </md-button>
+      </router-link>
 
       <md-button class="md-fab md-primary md-mini md-clean">
         <md-icon>alarm_add</md-icon>
@@ -75,6 +78,13 @@
       getLastData(array) {
         if (array.length) {
           return array[array.length - 1].date_event
+        }
+
+        return 'nenhum histórico'
+      },
+      getFirstData(array) {
+        if (array.length) {
+          return array[0].date_event
         }
 
         return 'nenhum histórico'
