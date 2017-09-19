@@ -3,10 +3,13 @@
 
 
     <md-toolbar>
-      <md-button class="md-icon-button" @click="toggleLeftSidenav">
+      <md-button v-if="$route.path !== '/'" class="md-icon-button" @click="$router.back()">
+        <md-icon>keyboard_backspace</md-icon>
+      </md-button>
+      <h1 class="md-title">{{$route.name}}</h1>
+       <md-button class="md-icon-button" @click="toggleLeftSidenav">
         <md-icon>menu</md-icon>
       </md-button>
-      <h1 class="md-title">Vendas</h1>
     </md-toolbar>
 
     <md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
@@ -17,13 +20,16 @@
       </md-toolbar>
 
       <md-list>
-        <md-list-item>
-          <router-link to="/">Pedidos</router-link>
+        <md-list-item @click.native="closeLeftSidenav()">
+          <router-link to="/">Início</router-link>
         </md-list-item>
-        <md-list-item>
+        <md-list-item @click.native="closeLeftSidenav()">
+          <router-link to="/orders">Pedidos</router-link>
+        </md-list-item>
+        <md-list-item @click.native="closeLeftSidenav()">
           <router-link to="/products">Produtos</router-link>
         </md-list-item>
-        <md-list-item>
+        <md-list-item @click.native="closeLeftSidenav()">
           <router-link to="/clients">Clientes</router-link>
         </md-list-item>
       </md-list>
@@ -47,6 +53,9 @@
       toggleLeftSidenav() {
         this.$refs.leftSidenav.toggle()
       },
+      closeLeftSidenav() {
+        this.$refs.leftSidenav.toggle()
+      },
       toggleRightSidenav() {
         this.$refs.rightSidenav.toggle()
       },
@@ -63,27 +72,37 @@
   }
 </script>
 
-<style>
+<style lang="scss">
 
-body {
-  min-height: 100%
-}
-#app {
-  min-height: 100%
-}
-.main-content {
-  padding-bottom: 90px;
-}
-.page-content {
-  padding: 15px;
-}
-.box-content {
-  padding-top: 20px;
-  padding-bottom: 40px;
-}
+  @import './assets/base';
 
 
-.md-speed-dial {
-  position: fixed !important;
-}
+
+  body {
+    min-height: 100%
+  }
+  #app {
+    min-height: 100%
+  }
+  .main-content {
+    padding-bottom: 90px;
+  }
+  .page-content {
+    padding: 15px;
+  }
+  .box-content {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+
+  .md-speed-dial {
+    position: fixed !important;
+  }
+  .md-toolbar {
+    & > .md-title {
+      flex: 1
+    }
+  }
+
 </style>

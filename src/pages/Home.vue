@@ -1,7 +1,6 @@
 <template>
   <div class="home">
 
-
     <md-list>
       <md-list-item v-for="order in orders" :key="order.id">
         <router-link :to="`/orders/${order.id}`">
@@ -12,6 +11,9 @@
       </md-list-item>
     </md-list>
 
+    <p class="text-center">
+      <router-link to="/orders">Ver todos os pedidos</router-link>
+    </p>
 
     <md-speed-dial md-open="hover" md-direction="top" class="md-fab-bottom-right">
       <md-button class="md-fab" md-fab-trigger>
@@ -47,10 +49,10 @@
     },
     methods: {
       getOrders() {
-        axios.get('http://localhost:8000/api/orders?batch=product,user,order_histories.status').then((response) => {
+        axios.get('http://localhost:8000/api/orders?batch=product,user,order_histories.status&limit=10&direction=desc').then((response) => {
           // console.log(response.data)
 
-          this.orders = response.data
+          this.orders = response.data.data
         })
       },
       getStatus(array) {
