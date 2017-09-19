@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     getOrders() {
-      axios.get('http://localhost:8000/api/orders?batch=product,user,order_histories.status').then((response) => {
+      axios.get('http://localhost:8000/api/orders?batch=product,user,order_histories.status&direction=desc').then((response) => {
         // console.log(response.data)
 
         this.orders = response.data.data
