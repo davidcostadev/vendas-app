@@ -1,22 +1,48 @@
 <template>
   <div class="page-content">
 
+
+  <span class="md-body-1">Pedidos Concluídos</span>
+  <div class="box-content">
+    <md-progress :md-progress="progress"></md-progress>
+
+
+    <md-table>
+      <md-table-body>
+        <md-table-row>
+          <md-table-head>Todos: </md-table-head>
+          <md-table-cell>{{todos}}</md-table-cell>
+        </md-table-row>
+        <md-table-row>
+          <md-table-head>Pagos: </md-table-head>
+          <md-table-cell>{{pagos}}</md-table-cell>
+        </md-table-row>
+        <md-table-row>
+          <md-table-head>Não Pagos: </md-table-head>
+          <md-table-cell>{{naopagos}}</md-table-cell>
+        </md-table-row>
+      </md-table-body>
+    </md-table>
+
+  </div>
+
+
+  <div class="box-content">
   <span class="md-body-1">Últimos Pedidos</span>
+      <md-list>
+        <md-list-item v-for="order in orders" :key="order.id">
+          <router-link :to="`/orders/${order.id}`">
+            <md-icon>{{getStatus(order.order_histories)}}</md-icon>
+            <span> {{order.user.name}} - {{order.product.name}}</span>
+            <span>{{getFirstData(order.order_histories)}}</span>
+          </router-link>
+        </md-list-item>
+      </md-list>
 
-    <md-list>
-      <md-list-item v-for="order in orders" :key="order.id">
-        <router-link :to="`/orders/${order.id}`">
-          <md-icon>{{getStatus(order.order_histories)}}</md-icon>
-          <span> {{order.user.name}} - {{order.product.name}}</span>
-          <span>{{getFirstData(order.order_histories)}}</span>
-        </router-link>
-      </md-list-item>
-    </md-list>
-
-    <p class="text-center">
-      <router-link to="/orders">Ver todos os pedidos</router-link>
-    </p>
-
+      <p class="text-center">
+        <router-link to="/orders">Ver todos os pedidos</router-link>
+      </p>
+    </div>
     <md-speed-dial md-open="hover" md-direction="top" class="md-fab-bottom-right">
       <md-button class="md-fab" md-fab-trigger>
         <md-icon md-icon-morph>event</md-icon>
@@ -47,6 +73,11 @@
     data() {
       return {
         orders: [],
+        progress: 0,
+        pagos: 0,
+        todos: 0,
+        naopagos: 0,
+
       }
     },
     methods: {
@@ -55,6 +86,20 @@
           // console.log(response.data)
 
           this.orders = response.data.data
+        })
+      },
+      getProgress() {
+        axios.get('http://localhost:8000/api/order-histories?batch=status').then((response) => {
+          response.data.forEach((orderHistory) => {
+            if (orderHistory.status.name === 'concluido') {
+              this.pagos += 1
+            } else {
+              this.naopagos += 1
+            }
+            this.todos += 1
+          })
+
+          this.progress = (this.pagos * 100) / this.todos
         })
       },
       getStatus(array) {
@@ -96,6 +141,7 @@
     },
     created() {
       this.getOrders()
+      this.getProgress()
     },
   }
 </script>
