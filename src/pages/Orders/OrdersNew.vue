@@ -109,14 +109,14 @@ export default {
     getProducts() {
       axios.get('http://localhost:8000/api/products').then((response) => {
         if (response.data) {
-          this.products = response.data
+          this.products = response.data.data
         }
       })
     },
     getClients() {
       axios.get('http://localhost:8000/api/clients').then((response) => {
         if (response.data) {
-          this.clients = response.data
+          this.clients = response.data.data
         }
       })
     },

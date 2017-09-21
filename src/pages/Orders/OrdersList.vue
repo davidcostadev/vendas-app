@@ -1,5 +1,27 @@
 <template>
-  <div class="home">
+  <div class="page-content">
+
+    <md-layout md-gutter>
+      <md-layout>
+        <md-input-container>
+          <label for="movie">Filtar por Cliente</label>
+          <md-select @change="getOrders()" v-model="input_client">
+            <md-option>Limpar Filtro</md-option>
+            <md-option v-for="client in clients" :key="client.id" :value="client.id">{{client.name}}</md-option>
+          </md-select>
+        </md-input-container>
+      </md-layout>
+      <md-layout>
+        <md-input-container>
+          <label for="movie">Filtar por Produto</label>
+          <md-select @change="getOrders()" v-model="input_product">
+            <md-option>Limpar Filtro</md-option>
+            <md-option v-for="product in products" :key="product.id" :value="product.id">{{product.name}}</md-option>
+          </md-select>
+        </md-input-container>
+      </md-layout>
+    </md-layout>
+
 
     <md-list>
       <md-list-item v-for="order in orders" :key="order.id">
@@ -40,11 +62,37 @@ export default {
   data() {
     return {
       orders: [],
+      clients: [],
+      products: [],
+      input_product: '',
+      input_client: '',
     }
   },
   methods: {
+    getClients() {
+      axios.get('http://localhost:8000/api/clients?limit=1000').then((response) => {
+        this.clients = response.data.data
+      })
+    },
+    getProducts() {
+      axios.get('http://localhost:8000/api/products?limit=1000').then((response) => {
+        this.products = response.data.data
+      })
+    },
     getOrders() {
-      axios.get('http://localhost:8000/api/orders?batch=product,user,order_histories.status&direction=desc').then((response) => {
+      const filters = []
+
+      if (this.input_client > 0) {
+        filters.push(`user_id=${this.input_client}`)
+      }
+      if (this.input_product > 0) {
+        filters.push(`product_id=${this.input_product}`)
+      }
+
+
+      const filter = filters.length ? `&${filters.join('&')}` : ''
+
+      axios.get(`http://localhost:8000/api/orders?batch=product,user,order_histories.status&direction=desc${filter}`).then((response) => {
         // console.log(response.data)
 
         this.orders = response.data.data
@@ -89,6 +137,8 @@ export default {
   },
   created() {
     this.getOrders()
+    this.getClients()
+    this.getProducts()
   },
 }
 </script>
