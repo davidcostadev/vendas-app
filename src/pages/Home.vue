@@ -15,11 +15,11 @@
         </md-table-row>
         <md-table-row>
           <md-table-head>Pagos: </md-table-head>
-          <md-table-cell>{{pagos}}</md-table-cell>
+          <md-table-cell>R$ {{valorPago.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}} ({{pagos}})</md-table-cell>
         </md-table-row>
         <md-table-row>
           <md-table-head>Não Pagos: </md-table-head>
-          <md-table-cell>{{naopagos}}</md-table-cell>
+          <md-table-cell>R$ {{valorNaoPago.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}} ({{naopagos}})</md-table-cell>
         </md-table-row>
       </md-table-body>
     </md-table>
@@ -77,7 +77,8 @@
         pagos: 0,
         todos: 0,
         naopagos: 0,
-
+        valorPago: 0,
+        valorNaoPago: 0,
       }
     },
     methods: {
@@ -89,15 +90,31 @@
         })
       },
       getProgress() {
-        axios.get('http://localhost:8000/api/order-histories?batch=status').then((response) => {
-          response.data.forEach((orderHistory) => {
-            if (orderHistory.status.name === 'concluido') {
-              this.pagos += 1
-            } else {
-              this.naopagos += 1
-            }
+        axios.get('http://localhost:8000/api/orders?batch=order_histories.status,product&limit=1000').then((response) => {
+          const orders = response.data.data
+
+          orders.forEach((order) => {
+            let pago = false
+            let naopago = true
             this.todos += 1
+
+            order.order_histories.forEach((orderHistory) => {
+              if (orderHistory.status.name === 'concluido' || orderHistory.status.name === 'reservado') {
+                pago = true
+                naopago = false
+              }
+            })
+
+            if (pago) {
+              this.pagos += 1
+              this.valorPago += order.quant * parseFloat(order.product.amount)
+            }
+            if (naopago) {
+              this.naopagos += 1
+              this.valorNaoPago += order.quant * parseFloat(order.product.amount)
+            }
           })
+
 
           this.progress = (this.pagos * 100) / this.todos
         })
