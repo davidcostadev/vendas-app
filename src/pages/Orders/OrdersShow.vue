@@ -153,7 +153,7 @@
 
         axios.post('http://localhost:8000/api/order-histories/', data).then((response) => {
           if (response.data) {
-            this.order = response.data
+            // this.order = response.data
             this.getOrder()
           }
         })
