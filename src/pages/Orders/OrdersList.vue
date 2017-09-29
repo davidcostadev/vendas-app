@@ -20,6 +20,15 @@
           </md-select>
         </md-input-container>
       </md-layout>
+      <!-- <md-layout>
+        <md-input-container>
+          <label for="status">Filtar por Status</label>
+          <md-select name="status" @change="changeFilter()" v-model="input_status">
+            <md-option>Limpar Status</md-option>
+            <md-option v-for="statusItem in statuses" :key="statusItem.name" :value="statusItem.name">{{statusItem.name}}</md-option>
+          </md-select>
+        </md-input-container>
+      </md-layout> -->
     </md-layout>
 
 
@@ -64,8 +73,10 @@ export default {
       orders: [],
       clients: [],
       products: [],
+      statuses: [],
       input_product: this.verify(this.$route.query.product_id),
       input_client: this.verify(this.$route.query.client_id),
+      input_status: this.$route.query.status,
     }
   },
   computed: {
@@ -74,6 +85,9 @@ export default {
     },
     client_id() {
       return this.verify(this.$route.query.client_id)
+    },
+    status() {
+      return this.verifyStr(this.$route.query.status)
     },
   },
   watch: {
@@ -85,17 +99,25 @@ export default {
       this.input_client = this.verify(valor)
       this.getOrders()
     },
+    status(valor) {
+      this.input_status = this.verifyStr(valor)
+      this.getOrders()
+    },
   },
   methods: {
     verify(variable) {
       variable = (variable !== '' ? variable : 0)
       return typeof variable !== 'undefined' ? parseInt(variable, 10) : 0
     },
+    verifyStr(variable) {
+      return typeof variable !== 'undefined' ? variable : ''
+    },
     changeFilter() {
       const productId = this.input_product > 0 ? this.input_product : ''
       const clientId = this.input_client > 0 ? this.input_client : ''
+      // const status = this.input_status.length > 0 ? this.input_status : ''
 
-      this.$router.push(`/orders/?client_id=${clientId}&product_id=${productId}`)
+      this.$router.push(`/orders/?client_id=${clientId}&product_id=${productId}&status=${status}`)
     },
     closeMenu() {
       this.$refs.menu.close()
@@ -104,6 +126,11 @@ export default {
     getClients() {
       axios.get('http://localhost:8000/api/clients?limit=1000').then((response) => {
         this.clients = response.data.data
+      })
+    },
+    getStatuses() {
+      axios.get('http://localhost:8000/api/statuses').then((response) => {
+        this.statuses = response.data
       })
     },
     getProducts() {
@@ -119,6 +146,9 @@ export default {
       }
       if (this.product_id > 0) {
         filters.push(`product_id=${this.product_id}`)
+      }
+      if (this.status.length > 0) {
+        filters.push(`status=${this.status}`)
       }
 
 
@@ -172,6 +202,7 @@ export default {
     this.getOrders()
     this.getClients()
     this.getProducts()
+    this.getStatuses()
   },
   mounted() {
     // console.log('mounted')
