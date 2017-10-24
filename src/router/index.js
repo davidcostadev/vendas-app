@@ -4,6 +4,8 @@ import Home from '@/pages/Home'
 import OrdersList from '@/pages/Orders/OrdersList'
 import OrdersShow from '@/pages/Orders/OrdersShow'
 import OrdersNew from '@/pages/Orders/OrdersNew'
+import Products from '@/pages/Products'
+import Clients from '@/pages/Clients'
 
 Vue.use(Router)
 
@@ -28,6 +30,16 @@ export default new Router({
       path: '/orders/:order_id',
       name: 'Pedido',
       component: OrdersShow,
+    },
+    {
+      path: '/products/',
+      name: 'Produtos',
+      component: Products,
+    },
+    {
+      path: '/clients/',
+      name: 'Clientes',
+      component: Clients,
     },
   ],
 })

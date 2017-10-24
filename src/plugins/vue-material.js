@@ -16,7 +16,7 @@ import 'vue-material/dist/vue-material.css'
 
 // import 'vue-material/dist/components/mdInkRipple/index.css'
 
-console.log(VueMaterial)
+// console.log(VueMaterial)
 
 // Vue.material.theme.register('default', {
 //   primary: 'blue',

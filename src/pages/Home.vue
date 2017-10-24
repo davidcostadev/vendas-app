@@ -15,11 +15,11 @@
         </md-table-row>
         <md-table-row>
           <md-table-head>Pagos: </md-table-head>
-          <md-table-cell>R$ {{valorPago.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}} ({{pagos}})</md-table-cell>
+          <md-table-cell>R$ {{valorPago | currency_real}} ({{pagos}})</md-table-cell>
         </md-table-row>
         <md-table-row>
           <md-table-head>Não Pagos: </md-table-head>
-          <md-table-cell>R$ {{valorNaoPago.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}} ({{naopagos}})</md-table-cell>
+          <md-table-cell>R$ {{valorNaoPago | currency_real}} ({{naopagos}})</md-table-cell>
         </md-table-row>
       </md-table-body>
     </md-table>
@@ -45,7 +45,7 @@
     </div>
     <md-speed-dial md-open="hover" md-direction="top" class="md-fab-bottom-right">
       <md-button class="md-fab" md-fab-trigger>
-        <md-icon md-icon-morph>event</md-icon>
+        <md-icon md-icon-morph>reorder</md-icon>
         <md-icon>add</md-icon>
       </md-button>
 
@@ -55,10 +55,6 @@
           <md-icon>note_add</md-icon>
         </md-button>
       </router-link>
-
-      <md-button class="md-fab md-primary md-mini md-clean">
-        <md-icon>alarm_add</md-icon>
-      </md-button>
     </md-speed-dial>
 
 
@@ -80,6 +76,13 @@
         valorPago: 0,
         valorNaoPago: 0,
       }
+    },
+    filters: {
+      currency_real(val) {
+        val = parseFloat(val, 10)
+        const amount = val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })
+        return `R$ ${amount}`
+      },
     },
     methods: {
       getOrders() {

@@ -149,7 +149,7 @@
           status_id: this.input_status,
           date_event: this.date_event,
         }
-        console.log(data)
+        // console.log(data)
 
         axios.post('http://vendas-api.davidcosta.com.br/api/order-histories/', data).then((response) => {
           if (response.data) {
