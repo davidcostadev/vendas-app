@@ -107,21 +107,21 @@ export default {
   },
   methods: {
     getProducts() {
-      axios.get('http://localhost:8000/api/products').then((response) => {
+      axios.get('http://vendas-api.davidcosta.com.br/api/products').then((response) => {
         if (response.data) {
           this.products = response.data.data
         }
       })
     },
     getClients() {
-      axios.get('http://localhost:8000/api/clients').then((response) => {
+      axios.get('http://vendas-api.davidcosta.com.br/api/clients').then((response) => {
         if (response.data) {
           this.clients = response.data.data
         }
       })
     },
     getStatuses() {
-      axios.get('http://localhost:8000/api/statuses').then((response) => {
+      axios.get('http://vendas-api.davidcosta.com.br/api/statuses').then((response) => {
         if (response.data) {
           this.statuses = response.data
         }
@@ -135,7 +135,7 @@ export default {
       }
 
       window.console.log(data)
-      axios.post('http://localhost:8000/api/orders/', data).then((response) => {
+      axios.post('http://vendas-api.davidcosta.com.br/api/orders/', data).then((response) => {
         if (response.data) {
           this.setStatus(response.data.id)
         }
@@ -147,7 +147,7 @@ export default {
         status_id: this.input_status,
         date_event: this.date_event,
       }
-      axios.post('http://localhost:8000/api/order-histories/', data).then((response) => {
+      axios.post('http://vendas-api.davidcosta.com.br/api/order-histories/', data).then((response) => {
         if (response.data) {
           this.$router.push('/')
         }

@@ -83,14 +83,14 @@
     },
     methods: {
       getOrders() {
-        axios.get('http://localhost:8000/api/orders?batch=product,user,order_histories.status&limit=10&direction=desc').then((response) => {
+        axios.get('http://vendas-api.davidcosta.com.br/api/orders?batch=product,user,order_histories.status&limit=10&direction=desc').then((response) => {
           // console.log(response.data)
 
           this.orders = response.data.data
         })
       },
       getProgress() {
-        axios.get('http://localhost:8000/api/orders?batch=order_histories.status,product&limit=1000').then((response) => {
+        axios.get('http://vendas-api.davidcosta.com.br/api/orders?batch=order_histories.status,product&limit=1000').then((response) => {
           const orders = response.data.data
 
           orders.forEach((order) => {
